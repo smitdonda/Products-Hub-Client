@@ -37,13 +37,13 @@ function Header() {
           <Nav.Item onClick={() => navigate("/cart")}>
             <Nav.Link className="text-white">
               <ShoppingCartIcon />
-                             {context.cartValue > 0 ? (
-                  <>
-                    <sup className="badge badge-danger rounded-circle badge-pill ">
-                      {context.cartValue}
-                    </sup>
-                  </>
-                ) : null}
+              {context.cartValue > 0 ? (
+                <>
+                  <sup className="badge badge-danger rounded-circle badge-pill ">
+                    {context.cartValue}
+                  </sup>
+                </>
+              ) : null}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
