@@ -65,23 +65,21 @@ function Header() {
               <>
                 <Nav.Link
                   to="/login"
-                  className="text-white description "
+                  className="text-white mr-2 description "
                   size="sm"
                 >
                   <LoginIcon />
                   &nbsp;Login
                 </Nav.Link>
+                <Nav.Link
+                  href="/signup"
+                  className="text-white description"
+                  style={{ fontSize: "medium" }}
+                >
+                  SignUp
+                </Nav.Link>
               </>
             )}
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              href="/signup"
-              className="text-white description"
-              style={{ fontSize: "medium" }}
-            >
-              SignUp
-            </Nav.Link>
           </Nav.Item>
         </Nav>
       </Navbar.Collapse>
