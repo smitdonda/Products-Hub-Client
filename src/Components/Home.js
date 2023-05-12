@@ -17,7 +17,7 @@ function Home() {
 
       // auth post method
       let res = await axios.post(
-        "https://products-hub-server.herokuapp.com/users/auth",
+        "https://products-hub-server.vercel.app/users/auth",
         { purpose: "validate access" },
         config
       );
@@ -36,7 +36,7 @@ function Home() {
   let [onlyCategory, setOnlyCategory] = useState();
   let categoryData = async () => {
     let res = await axios.get(
-      "https://products-hub-server.herokuapp.com/users/getcategory"
+      "https://products-hub-server.vercel.app/users/getcategory"
     );
     setOnlyCategory(res.data.category);
     setIsLoading(false);

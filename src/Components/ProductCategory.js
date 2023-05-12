@@ -11,13 +11,14 @@ function ProductCategory() {
   let [categoryname, setCategoryName] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  let url = "https://products-hub-server.herokuapp.com/users/getProductByCategory/" + id;
+  let url =
+    "https://products-hub-server.vercel.app/users/getProductByCategory/" + id;
   let allProductsData = async () => {
     let res = await axios.get(url);
     if (res) {
       setSeletedCategory(res.data.allProducts);
       setCategoryName(res?.data?.allProducts[0]?.categoryName);
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
   useEffect(() => {

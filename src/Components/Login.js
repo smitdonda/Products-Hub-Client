@@ -12,7 +12,7 @@ function Login() {
 
   let handleSubmit = async (values) => {
     let res = await axios.post(
-      "https://products-hub-server.herokuapp.com/users/login",
+      "https://products-hub-server.vercel.app/users/login",
       values
     );
     if (res.data.statusCode === 200) {

@@ -10,8 +10,8 @@ import { ProductHub } from "../App";
 function Header() {
   let context = useContext(ProductHub);
   let navigate = useNavigate();
+  
   // logOut
-
   var token = sessionStorage.getItem("token");
   let logOut = () => {
     sessionStorage.clear();

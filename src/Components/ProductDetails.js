@@ -15,7 +15,7 @@ function ProductDetails() {
   let [product, setProducts] = useState();
   let productsData = async () => {
     let res = await axios.get(
-      "https://products-hub-server.herokuapp.com/users/getProductById/" + id
+      "https://products-hub-server.vercel.app/users/getProductById/" + id
     );
     setProducts(res.data.products);
     setIsLoading(false);

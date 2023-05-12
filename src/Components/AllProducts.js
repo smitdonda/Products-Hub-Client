@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Header from "./Header";
@@ -8,7 +8,7 @@ function AllProducts() {
   let [allProducts, setAllProducts] = useState();
   let allProductsData = async () => {
     let res = await axios.get(
-      "https://products-hub-server.herokuapp.com/users/getallfeshionproduct"
+      "https://products-hub-server.vercel.app/users/getallfeshionproduct"
     );
     setIsLoading(false);
     setAllProducts(res.data.allProducts);
@@ -19,7 +19,7 @@ function AllProducts() {
 
   return (
     <>
-    <Header></Header>
+      <Header></Header>
       {isLoading ? (
         <>
           <div
