@@ -1,46 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Header from "./Header";
-import axios from "axios";
+import MainLayout from "../../containers/MainLayout";
+import axiosInstance from "../../../config/AxiosInstance";
+import { Loader } from "../../containers/loaders";
+
 function ProductCategory() {
-  //   seleted category all products // get method  (find the category Name)
-  let { id } = useParams();
+  //   seleted category all products
+  const { id } = useParams();
+  const [seletedCategory, setSeletedCategory] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  let [seletedCategory, setSeletedCategory] = useState();
-  let [categoryname, setCategoryName] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-
-  let url =
-    "https://products-hub-server.vercel.app/users/getProductByCategory/" + id;
-  let allProductsData = async () => {
-    let res = await axios.get(url);
-    if (res) {
-      setSeletedCategory(res.data.allProducts);
-      setCategoryName(res?.data?.allProducts[0]?.categoryName);
+  // get method  (find the category Name)
+  const getProductByCategory = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.get(
+        `/products/getProductByCategory/${id}`
+      );
+      if (response.data) {
+        setSeletedCategory(response.data.products);
+        setCategoryName(response?.data?.products[0]?.categoryName);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
-    allProductsData();
+    getProductByCategory();
   }, []);
 
   return (
-    <>
-      <Header></Header>
+    <MainLayout>
       {isLoading ? (
         <>
-          <div
-            className="d-flex flex-row justify-content-center align-items-center"
-            style={{ height: "100vh" }}
-          >
-            <div className="loader"></div>
-          </div>
+          <Loader isLoading={isLoading} />
         </>
       ) : (
         <>
-          <div style={{ marginTop: "100px" }} className="container-fluid">
-            <h3 className="text-uppercase mt-4 title">{categoryname}</h3>
+          <div>
+            <h3 className="text-uppercase mt-4 title">{categoryName}</h3>
             <hr />
             <div className="mt-2 mb-5 allproducts-div row description">
               {seletedCategory?.map((e, i) => {
@@ -74,7 +77,7 @@ function ProductCategory() {
           </div>
         </>
       )}
-    </>
+    </MainLayout>
   );
 }
 

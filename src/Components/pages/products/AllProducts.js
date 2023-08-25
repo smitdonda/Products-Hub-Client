@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+import MainLayout from "../../containers/MainLayout";
+import axiosInstance from "../../../config/AxiosInstance";
+import { Loader } from "../../containers/loaders";
 
 function AllProducts() {
   const [isLoading, setIsLoading] = useState(true);
-  let [allProducts, setAllProducts] = useState();
-  let allProductsData = async () => {
-    let res = await axios.get(
-      "https://products-hub-server.vercel.app/users/getallfeshionproduct"
-    );
-    setIsLoading(false);
-    setAllProducts(res.data.allProducts);
+  const [allProducts, setAllProducts] = useState([]);
+
+  const getAllProducts = async () => {
+    try {
+      const response = await axiosInstance.get("/products");
+      setAllProducts(response.data.products);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching all products:", error);
+      setIsLoading(false);
+    }
   };
+
   useEffect(() => {
-    allProductsData();
+    getAllProducts();
   }, []);
 
   return (
-    <>
-      <Header></Header>
+    <MainLayout>
       {isLoading ? (
         <>
-          <div
-            className="d-flex flex-row justify-content-center align-items-center"
-            style={{ height: "100vh" }}
-          >
-            <div className="loader"></div>
-          </div>
+          <Loader isLoading={isLoading} />
         </>
       ) : (
         <>
-          <div className="container-fluid" style={{ marginTop: "100px" }}>
-            <div className="mt-2 mb-5 allproducts-div row">
+          <div>
+            <div className="allproducts-div row">
               <h3 className="title">All Fashions</h3>
-              <hr className="border-bottom border-5" />
+              <hr />
               {allProducts?.map((e, i) => {
                 return (
                   <>
@@ -67,7 +67,7 @@ function AllProducts() {
           </div>
         </>
       )}
-    </>
+    </MainLayout>
   );
 }
 

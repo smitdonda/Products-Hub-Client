@@ -1,26 +1,37 @@
-import React from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
+import PasswordIcon from "@mui/icons-material/Password";
+import axiosInstance from "../../config/AxiosInstance";
+import { setItem } from "../../config/cookieStorage";
+import { SpinLoader } from "../containers/loaders";
 
 function Login() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
-  let handleSubmit = async (values) => {
-    let res = await axios.post(
-      "https://products-hub-server.vercel.app/users/login",
-      values
-    );
-    if (res.data.statusCode === 200) {
-      sessionStorage.setItem("token", res.data.token);
-      sessionStorage.setItem("username", res.data.username);
-      navigate("/");
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    try {
+      const res = await axiosInstance.post("/login", values);
+
+      if (res.data.success) {
+        setItem("token", res.data.token);
+        setItem("username", res.data.username);
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.error("Login failed:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const login = useFormik({
     initialValues: {
       email: "",
@@ -43,13 +54,10 @@ function Login() {
   });
 
   return (
-    <div
-      className="container d-flex flex-row justify-content-center align-items-center  "
-      style={{ height: "100vh" }}
-    >
+    <div className="d-flex flex-row justify-content-center align-items-center vh-100">
       <form
         className="border border-success border-3 p-4 description"
-        style={{ borderRadius: "2%", width: "450px" }}
+        style={{ borderRadius: "2%", width: "28rem" }}
         onSubmit={login.handleSubmit}
       >
         <h4 className="mt-3 mb-5 text-center title">Log In </h4>
@@ -75,7 +83,7 @@ function Login() {
         <div className="form-group input-group m-0 mt-4">
           <div className="input-group-prepend">
             <span className="input-group-text">
-              <LockIcon />
+              <PasswordIcon />
             </span>
           </div>
           <input
@@ -92,9 +100,9 @@ function Login() {
           <div className="text-danger">{login.errors.password}</div>
         ) : null}
 
-        <div className="form-group mt-4">
-          <Button type="submit" variant="success" className="btn  btn-block">
-            Login
+        <div className="form-group mt-4 d-grid">
+          <Button type="submit" variant="success" className="shadow-none">
+            {isLoading ? <SpinLoader /> : "Login"}
           </Button>
         </div>
         <p className="text-center">

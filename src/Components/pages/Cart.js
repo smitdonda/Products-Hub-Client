@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ProductHub } from "../App";
+import { ProductHub } from "../../App";
 import Payment from "./Payment";
-import Header from "./Header";
+import MainLayout from "../containers/MainLayout";
 
 function Cart() {
   let context = useContext(ProductHub);
   let cartPrice = 0;
 
-  let handleDelete = (i) => {
+  const handleDelete = (i) => {
     context.cart.splice(i, 1);
     context.setCartValue(context.cart.length);
   };
@@ -17,14 +17,14 @@ function Cart() {
   // QTY
   let [value, setValue] = useState(context.cart);
   let [anotherSetValue, setAnotherValue] = useState();
-  let increment = (e) => {
+  const increment = (e) => {
     let index = context.cart.findIndex((c) => c.name === e.name);
     let result = (value[index].qty += 1);
     setAnotherValue(result);
     context.setCartTotalPrice(cartPrice);
   };
 
-  let decrement = (e) => {
+  const decrement = (e) => {
     let index = context.cart.findIndex((c) => c.name === e.name);
     if (value[index].qty > 1) {
       let result = (value[index].qty -= 1);
@@ -34,9 +34,8 @@ function Cart() {
   };
 
   return (
-    <>
-    <Header></Header>
-      <div style={{ marginTop: "100px" }} className="container-fluid">
+    <MainLayout>
+      <div className="container-fluid">
         <div className="mt-2 mb-5 cart-div row">
           {context.cart.length > 0 ? (
             <>
@@ -122,7 +121,7 @@ function Cart() {
           )}
         </div>
       </div>
-    </>
+    </MainLayout>
   );
 }
 
