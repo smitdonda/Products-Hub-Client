@@ -1,17 +1,10 @@
 import React from "react";
-import { Spinner } from "react-bootstrap";
 import HashLoader from "react-spinners/HashLoader";
 
 function Spin() {
   return (
     <>
-      <Spinner
-        as="span"
-        animation="border"
-        size="sm"
-        role="status"
-        aria-hidden="true"
-      />
+      <i class="fa fa-spinner fa-spin"></i>
     </>
   );
 }
@@ -19,14 +12,7 @@ function Spin() {
 function SpinLoader() {
   return (
     <>
-      <Spinner
-        as="span"
-        animation="border"
-        size="sm"
-        role="status"
-        aria-hidden="true"
-      />{" "}
-      Loading...
+      <i class="fa fa-spinner fa-spin"></i> Loading...
     </>
   );
 }
@@ -40,7 +26,7 @@ function Loader({ isLoading }) {
       <HashLoader
         color="#14A44D"
         loading={isLoading}
-        size={60}
+        size={"58px"}
         speedMultiplier={1}
       />
     </div>

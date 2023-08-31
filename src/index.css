@@ -17,7 +17,7 @@
   top: 50%;
   left: 4%;
   color: azure;
-  font-size: 1.8rem !important;
+  font-size: 1.9rem !important;
 }
 
 .Shirts-img {
@@ -29,11 +29,23 @@
   left: 10%;
   color: azure;
 }
-.category-div {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr;
-  gap: 20px 20px;
+.bg-light {
+  background-color: #f2f2f2 !important;
 }
+.category-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.category-card {
+  background-color: #f2f2f2;
+  width: 28.5rem !important;
+}
+
 /*shop Now btn effect */
 .shopNow {
   color: #18272f;
@@ -58,12 +70,21 @@
   transform-origin: left;
   transform: scaleX(1);
 }
+
 /* all products */
 .allproducts-div {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 15px;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(21.5rem, 1fr));
+  gap: 0.9rem;
 }
+
+.product-card {
+  max-height: 28rem;
+  max-width: 23.5rem !important;
+}
+
 /* products-images */
 @media (max-width: 1400px) {
   .products-images {

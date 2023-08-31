@@ -15,7 +15,7 @@ function Home() {
       const response = await axiosInstance.get("/category");
       setOnlyCategory(response.data.category);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.log("Error fetching categories:", error);
     } finally {
       setIsLoading(false);
     }
@@ -76,15 +76,11 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div className="my-5 category-div row px-3">
+            <div className="my-5 category-div">
               {/* category */}
               {onlyCategory?.map((e, i) => {
                 return (
-                  <div
-                    key={i}
-                    className="text-center p-3 col"
-                    style={{ backgroundColor: "#f2f2f2", width: "400px" }}
-                  >
+                  <div key={i} className="text-center p-3 category-card">
                     <Link
                       to={
                         `/categoryproduct/` +

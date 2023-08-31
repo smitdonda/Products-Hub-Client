@@ -21,9 +21,10 @@ function ProductDetails() {
       const response = await axiosInstance.get(
         `/products/getProductById/${id}`
       );
+
       setProduct(response.data.product);
     } catch (error) {
-      console.error("Error fetching product details:", error);
+      console.log("Error fetching product details:", error);
     } finally {
       setIsLoading(false);
     }
@@ -33,36 +34,21 @@ function ProductDetails() {
     getProductById();
   }, [id]);
 
-  const addCartData = (products) => {
-    console.log(products.size);
-    if (seletSize) {
-      let print = context.cart.findIndex((c) => c.name === products.name);
-      if (print === -1) {
-        if (seletSize) {
-          products["selectedsize"] = seletSize;
-        }
-        products["qty"] = 1;
-        context.cart.push(products);
-        context.setCartValue(context.cart.length);
-      } else {
-        context.cart[print]["qty"] += 1;
-      }
+  const addCartData = () => {
+    if (!seletSize && product?.size.length > 0) {
+      toast.error("Please select size");
+      return false;
+    }
+
+    const print = context.cart.findIndex((c) => c.name === product.name);
+
+    if (print === -1) {
+      product["selectedsize"] = seletSize || "";
+      product["qty"] = 1;
+      context.cart.push(product);
+      context.setCartValue(context.cart.length);
     } else {
-      if (products.size) {
-        toast.error("Please select size");
-      } else {
-        let print = context.cart.findIndex((c) => c.name === products.name);
-        if (print === -1) {
-          if (seletSize) {
-            products["selectedsize"] = seletSize;
-          }
-          products["qty"] = 1;
-          context.cart.push(products);
-          context.setCartValue(context.cart.length);
-        } else {
-          context.cart[print]["qty"] += 1;
-        }
-      }
+      context.cart[print]["qty"] += 1;
     }
   };
 
@@ -105,7 +91,7 @@ function ProductDetails() {
                       </p>
                       <div className="d-flex flex-row justify-content-center align-items-center">
                         <div>
-                          {product.size ? (
+                          {product?.size.length > 0 ? (
                             <>
                               <div>
                                 <p className="title">Size</p>
@@ -121,7 +107,9 @@ function ProductDetails() {
                                     className="option-input radio"
                                     name="example"
                                     value={size}
-                                    onClick={() => setseletSize(size)}
+                                    onClick={(e) =>
+                                      setseletSize(e.target.value)
+                                    }
                                   />
                                   &nbsp;&nbsp;
                                   {size}

@@ -24,7 +24,7 @@ function ProductCategory() {
         setCategoryName(response?.data?.products[0]?.categoryName);
       }
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.log("Error fetching products:", error);
     } finally {
       setIsLoading(false);
     }
@@ -45,12 +45,12 @@ function ProductCategory() {
           <div>
             <h3 className="text-uppercase mt-4 title">{categoryName}</h3>
             <hr />
-            <div className="mt-2 mb-5 allproducts-div row description">
+            <div className="mt-2 mb-5 allproducts-div description">
               {seletedCategory?.map((e, i) => {
                 return (
                   <div
                     key={i}
-                    className="text-center p-4 col"
+                    className="text-center p-4 product-card"
                     style={{ backgroundColor: "#f2f2f2" }}
                   >
                     <Link

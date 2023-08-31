@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { Button } from "react-bootstrap";
 import * as yup from "yup";
@@ -7,6 +7,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import KeyIcon from "@mui/icons-material/Key";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../config/AxiosInstance";
 import { SpinLoader } from "../containers/loaders";
@@ -15,6 +17,7 @@ function Signup() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (values) => {
     setIsLoading(true);
@@ -25,13 +28,16 @@ function Signup() {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message);
-      console.error("Signup failed:", error);
+      console.log(
+        "Signup failed:",
+        error?.response?.data?.message || error.message
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const signUp = useFormik({
+  const signUpFormik = useFormik({
     initialValues: {
       username: "",
       email: "",
@@ -60,12 +66,16 @@ function Signup() {
     },
   });
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="d-flex flex-row justify-content-center align-items-center vh-100">
       <form
         className="border border-success border-3 p-5 description"
-        style={{ borderRadius: "2%", width: "28rem" }}
-        onSubmit={signUp.handleSubmit}
+        style={{ borderRadius: "2%", width: "29rem" }}
+        onSubmit={signUpFormik.handleSubmit}
       >
         <div className="mb-4">
           <h4 className="text-center title">Sign Up</h4>
@@ -83,13 +93,13 @@ function Signup() {
             placeholder="User Name"
             id="username"
             name="username"
-            onBlur={signUp.handleBlur}
-            onChange={signUp.handleChange}
-            vlaue={signUp.values.username}
+            onBlur={signUpFormik.handleBlur}
+            onChange={signUpFormik.handleChange}
+            vlaue={signUpFormik.values.username}
           />
         </div>
-        {signUp.touched.username && signUp.errors.username ? (
-          <div className="text-danger">{signUp.errors.username}</div>
+        {signUpFormik.touched.username && signUpFormik.errors.username ? (
+          <div className="text-danger">{signUpFormik.errors.username}</div>
         ) : null}
         {/* email */}
         <div className="form-group input-group m-0 mt-4">
@@ -102,15 +112,14 @@ function Signup() {
             className="form-control"
             placeholder="Email address"
             type="email"
-            id="email"
             name="email"
-            onBlur={signUp.handleBlur}
-            onChange={signUp.handleChange}
-            vlaue={signUp.values.email}
+            onBlur={signUpFormik.handleBlur}
+            onChange={signUpFormik.handleChange}
+            vlaue={signUpFormik.values.email}
           />
         </div>
-        {signUp.touched.email && signUp.errors.email ? (
-          <div className="text-danger">{signUp.errors.email}</div>
+        {signUpFormik.touched.email && signUpFormik.errors.email ? (
+          <div className="text-danger">{signUpFormik.errors.email}</div>
         ) : null}
         {/* password */}
         <div className="form-group input-group m-0 mt-4">
@@ -120,18 +129,24 @@ function Signup() {
             </span>
           </div>
           <input
-            className="form-control"
+            className="form-control border-right-0"
             placeholder="Create password"
-            type="password"
-            id="password"
+            type={showPassword ? "text" : "password"}
             name="password"
-            onBlur={signUp.handleBlur}
-            onChange={signUp.handleChange}
-            value={signUp.values.password}
+            onBlur={signUpFormik.handleBlur}
+            onChange={signUpFormik.handleChange}
+            value={signUpFormik.values.password}
           />
+          <span
+            className="input-group-text bg-white border-left-0"
+            onClick={togglePasswordVisibility}
+            style={{ cursor: "pointer" }}
+          >
+            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+          </span>
         </div>
-        {signUp.touched.password && signUp.errors.password ? (
-          <div className="text-danger">{signUp.errors.password}</div>
+        {signUpFormik.touched.password && signUpFormik.errors.password ? (
+          <div className="text-danger">{signUpFormik.errors.password}</div>
         ) : null}
         {/* cpassword */}
         <div className="form-group input-group m-0 mt-4">
@@ -141,18 +156,24 @@ function Signup() {
             </span>
           </div>
           <input
-            className="form-control"
+            className="form-control border-right-0"
             placeholder="Repeat password"
-            type="password"
-            id="cpassword"
+            type={showPassword ? "text" : "password"}
             name="cpassword"
-            onBlur={signUp.handleBlur}
-            onChange={signUp.handleChange}
-            value={signUp.values.cpassword}
+            onBlur={signUpFormik.handleBlur}
+            onChange={signUpFormik.handleChange}
+            value={signUpFormik.values.cpassword}
           />
+          <span
+            className="input-group-text bg-white border-left-0"
+            onClick={togglePasswordVisibility}
+            style={{ cursor: "pointer" }}
+          >
+            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+          </span>
         </div>
-        {signUp.touched.cpassword && signUp.errors.cpassword ? (
-          <div className="text-danger">{signUp.errors.cpassword}</div>
+        {signUpFormik.touched.cpassword && signUpFormik.errors.cpassword ? (
+          <div className="text-danger">{signUpFormik.errors.cpassword}</div>
         ) : null}
         <div className="form-group mt-4 d-grid">
           <Button type="submit" variant="success" className="shadow-none">
@@ -160,15 +181,11 @@ function Signup() {
           </Button>
         </div>
         <hr className="mt-4" />
-        <div className="text-center">
-          Have an account?{" "}
-          <Button
-            onClick={() => navigate("/login")}
-            className="text-dark shadow-none"
-            style={{ backgroundColor: "#ffff", border: "none" }}
-          >
+        <div className="text-center my-3">
+          <Link to="/login" className="text-dark text-decoration-none">
+            <span className="text-muted">Have an account&nbsp;?&nbsp;</span>
             Log In
-          </Button>
+          </Link>
         </div>
       </form>
     </div>

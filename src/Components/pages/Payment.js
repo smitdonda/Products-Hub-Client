@@ -33,7 +33,7 @@ function Payment() {
             totalPriceStatus: "FINAL",
             totalPriceLabel: "Total",
             totalPrice: "1",
-            currencyCode: "USD",
+            currencyCode: "INR",
             countryCode: "US",
           },
           shippingAddressRequired: true,

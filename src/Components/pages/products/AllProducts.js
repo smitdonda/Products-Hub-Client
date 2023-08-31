@@ -12,9 +12,10 @@ function AllProducts() {
     try {
       const response = await axiosInstance.get("/products");
       setAllProducts(response.data.products);
+      console.log(response.data.products);
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching all products:", error);
+      console.log("Error fetching all products:", error);
       setIsLoading(false);
     }
   };
@@ -32,26 +33,28 @@ function AllProducts() {
       ) : (
         <>
           <div>
-            <div className="allproducts-div row">
-              <h3 className="title">All Fashions</h3>
-              <hr />
+            <h3 className="title">All Fashions</h3>
+            <hr />
+            <div className="allproducts-div mb-5">
               {allProducts?.map((e, i) => {
                 return (
                   <>
                     <div
-                      className="text-center col p-4 mt-3 mb-3 description"
+                      className="text-center p-4 description product-card"
                       style={{ backgroundColor: "#f2f2f2" }}
                     >
                       <Link
                         to={`/productdetails/` + e._id}
                         className="text-decoration-none text-dark"
                       >
-                        <img
-                          src={e.images[0]}
-                          className="products-images"
-                          alt="name"
-                          width="300px"
-                        />
+                        <div style={{ height: "290px" }}>
+                          <img
+                            src={e?.images[0] || e?.images[4]}
+                            className="products-images"
+                            alt="name"
+                            width="300px"
+                          />
+                        </div>
                         <div className="pt-3">
                           <h6 className="category">{e.name}</h6>
                         </div>

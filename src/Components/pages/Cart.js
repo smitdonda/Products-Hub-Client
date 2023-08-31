@@ -6,7 +6,7 @@ import Payment from "./Payment";
 import MainLayout from "../containers/MainLayout";
 
 function Cart() {
-  let context = useContext(ProductHub);
+  const context = useContext(ProductHub);
   let cartPrice = 0;
 
   const handleDelete = (i) => {
@@ -15,13 +15,13 @@ function Cart() {
   };
 
   // QTY
-  let [value, setValue] = useState(context.cart);
-  let [anotherSetValue, setAnotherValue] = useState();
+  const [value, setValue] = useState(context.cart);
+  const [anotherSetValue, setAnotherValue] = useState();
+
   const increment = (e) => {
     let index = context.cart.findIndex((c) => c.name === e.name);
     let result = (value[index].qty += 1);
     setAnotherValue(result);
-    context.setCartTotalPrice(cartPrice);
   };
 
   const decrement = (e) => {
@@ -29,7 +29,6 @@ function Cart() {
     if (value[index].qty > 1) {
       let result = (value[index].qty -= 1);
       setAnotherValue(result);
-      context.setCartTotalPrice(cartPrice);
     }
   };
 
@@ -47,11 +46,11 @@ function Cart() {
                 return (
                   <div
                     key={i}
-                    className="text-center p-4 m-3 col description "
+                    className="text-center p-4 m-3 col description"
                     style={{ backgroundColor: "#f2f2f2" }}
                   >
                     <Link
-                      to={`/productdetails/` + e._id}
+                      to={`/productdetails/${e._id}`}
                       className="text-decoration-none text-dark"
                     >
                       <img src={e?.images[0]} alt="name" width="300px" />
@@ -66,9 +65,7 @@ function Cart() {
                     <div className="m-4">
                       <Button
                         className="shadow-none"
-                        onClick={() => {
-                          decrement(e);
-                        }}
+                        onClick={() => decrement(e)}
                       >
                         -
                       </Button>
@@ -76,9 +73,7 @@ function Cart() {
                       &nbsp;&nbsp;
                       <Button
                         className="shadow-none"
-                        onClick={() => {
-                          increment(e);
-                        }}
+                        onClick={() => increment(e)}
                       >
                         +
                       </Button>
@@ -108,16 +103,14 @@ function Cart() {
               </div>
             </>
           ) : (
-            <>
-              <div className="mt-5 description">
-                <div className="text-center ">
-                  <h3 className="text-danger">Yor Cart is Emty</h3>
-                  <Link to="/" className="btn btn-primary">
-                    Shop Now
-                  </Link>
-                </div>
+            <div className="mt-5 description">
+              <div className="text-center ">
+                <h3 className="text-danger">Your Cart is Empty</h3>
+                <Link to="/" className="btn btn-primary">
+                  Shop Now
+                </Link>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
