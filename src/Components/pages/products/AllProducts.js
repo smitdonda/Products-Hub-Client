@@ -12,7 +12,6 @@ function AllProducts() {
     try {
       const response = await axiosInstance.get("/products");
       setAllProducts(response.data.products);
-      console.log(response.data.products);
       setIsLoading(false);
     } catch (error) {
       console.log("Error fetching all products:", error);

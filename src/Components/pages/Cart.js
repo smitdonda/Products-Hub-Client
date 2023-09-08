@@ -39,7 +39,6 @@ function Cart() {
           {context.cart.length > 0 ? (
             <>
               {context.cart?.map((e, i) => {
-                console.log(e);
                 anotherSetValue
                   ? (cartPrice = cartPrice + Number(e.price) * anotherSetValue)
                   : (cartPrice = cartPrice + Number(e.price));
